@@ -1,14 +1,23 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { headerComponent } from './header/header.component';
-import { UserComponent } from './user/user.component';
+import { DUMMY_USERS } from './dummy-users';
+
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, headerComponent, UserComponent],
+  standalone:false,
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent {
   title = 'Angular-Learning';
+  users = DUMMY_USERS;
+  selectedUserId?:string;
+
+  get SelectedUser(){
+    return this.users.find((user)=> user.id === this.selectedUserId);
+  }
+
+  onSelectUser(id:string){
+    this.selectedUserId = id
+  }
 }
