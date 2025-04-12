@@ -1,25 +1,35 @@
-import { Component } from '@angular/core';
+import { Component, computed, EventEmitter, input, Input, output, Output, signal } from '@angular/core';
 import { DUMMY_USERS } from '../dummy-users';
+import { User } from './user.model';
+import { CardComponent } from "../shared/card/card.component";
 
 var randomIndex = Math.floor(Math.random()*DUMMY_USERS.length)
 
 @Component({
   selector: 'app-user',
-  imports: [],
+  standalone:false,
   templateUrl: './user.component.html',
   styleUrl: './user.component.css'
 })
+
+
 export class UserComponent {
+  @Input({required:true}) user!: User 
+  @Input({required:true}) selected!:boolean
+//  @Input({required:true}) id!:string
+//  @Input({required:true}) avatar!:string
+//  @Input({required:true}) name!:string;
 
-  selectUser = DUMMY_USERS[randomIndex];
+ @Output() select = new EventEmitter<string>();  
 
-  get imagePath(){
-    return 'assets/users/' + this.selectUser.avatar
+ 
+  get onImagePath(){
+    return 'assets/users/'+ this.user.avatar
   }
 
   onClickUser(){
-    var randomIndex = Math.floor(Math.random()*DUMMY_USERS.length);
-    this.selectUser = DUMMY_USERS[randomIndex];
-
+    this.select.emit(this.user.id);  
   }
+
+  
 }
